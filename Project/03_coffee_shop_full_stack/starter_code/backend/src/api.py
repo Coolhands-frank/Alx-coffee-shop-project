@@ -92,7 +92,7 @@ def create_drink(payload):
 
         return jsonify({
             'success': True,
-            'drinks': new_drink.long()
+            'drinks': [new_drink.long()]
         })
 
     except: 
@@ -206,3 +206,11 @@ def not_found(error):
 @TODO implement error handler for AuthError
     error handler should conform to general task above
 '''
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+
+    #Receive the raised authorization error and propagates it as response
+    
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
